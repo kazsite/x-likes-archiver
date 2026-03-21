@@ -18,7 +18,7 @@ gallery-dl --config /etc/gallery-dl.conf \
            "https://x.com/${X_USER_NAME}/likes"
 
 cd /tmp/downloads
-ZIP_NAME="${X_USER_NAME}_likes_$(date +%Y%m%d).zip"
+ZIP_NAME="${X_USER_NAME}_likes_$(date +%Y%m%d%H%M%S).zip"
 
 if [ -d "${X_USER_NAME}" ] || [ "$(ls -A .)" ]; then
   zip -r "/tmp/${ZIP_NAME}" .
