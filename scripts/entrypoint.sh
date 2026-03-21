@@ -27,7 +27,7 @@ else
   exit 0
 fi
 
-if [ -n "$S3_BUCKET" ]; then
+if [ -n "$S3_BUCKET_NAME" ]; then
   aws s3 cp "/tmp/${ZIP_NAME}" "s3://${S3_BUCKET}/${ZIP_NAME}"
 else
     echo "Warning: S3_BUCKET not set. Skipping upload."
