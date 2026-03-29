@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-if [ -z "$X_USER_NAME" ] || [ -z "$X_AUTH_TOKEN" ] || [ -z "$X_CT0" ]; then
-  echo "Error: Missing required environment variables (X_USER_NAME, X_AUTH_TOKEN, X_CT0)"
+if [ -z "$EXECUTION_ID" ] || [ -z "$X_USER_NAME" ] || [ -z "$X_AUTH_TOKEN" ] || [ -z "$X_CT0" ]; then
+  echo "Error: Missing required environment variables (EXECUTION_ID, X_USER_NAME, X_AUTH_TOKEN, X_CT0)"
   exit 1
 fi
 
@@ -29,6 +29,7 @@ fi
 
 if [ -n "$S3_BUCKET_NAME" ]; then
   aws s3 cp "/tmp/${ZIP_NAME}" "s3://${S3_BUCKET_NAME}/${ZIP_NAME}" \
+      --metadata "execution_id=${EXECUTION_ID}" \
       --content-type "application/zip"
 else
     echo "Warning: S3_BUCKET_NAME not set. Skipping upload."
