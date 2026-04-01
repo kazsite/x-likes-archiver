@@ -12,7 +12,7 @@ YEAR=$(date -d '1 day ago' +%Y)
 MONTH=$(date -d '1 day ago' +%-m)
 DAY=$(date -d '1 day ago' +%-d)
 
-gallery-dl --config /etc/gallery-dl.conf \
+gallery-dl -v --config /etc/gallery-dl.conf \
            --cookies /tmp/x_cookies.txt \
            --filter "date >= datetime($YEAR, $MONTH, $DAY)" \
            "https://x.com/${X_USER_NAME}/likes"
