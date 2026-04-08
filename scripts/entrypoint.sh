@@ -1,20 +1,19 @@
 #!/bin/bash
 set -e
 
-if [ -z "$EXECUTION_ID" ] || [ -z "$X_USER_NAME" ] || [ -z "$X_AUTH_TOKEN" ] || [ -z "$X_CT0" ]; then
-  echo "Error: Missing required environment variables (EXECUTION_ID, X_USER_NAME, X_AUTH_TOKEN, X_CT0)"
+if [ -z "$EXECUTION_ID" ] || [ -z "$X_USER_NAME" ] || [ -z "$X_AUTH_TOKEN" ] || [ -z "$X_CT0" ] || [ -z "$TARGET_DATE" ]; then
+  echo "Error: Missing required environment variables (EXECUTION_ID, X_USER_NAME, X_AUTH_TOKEN, X_CT0, TARGET_DATE)"
   exit 1
 fi
 
 python3 /usr/local/bin/netscape_cookies.py
 
-YEAR=$(date -d '1 day ago' +%Y)
-MONTH=$(date -d '1 day ago' +%-m)
-DAY=$(date -d '1 day ago' +%-d)
+IFS='-' read -r YEAR MONTH DAY <<< "$TARGET_DATE"
 
-gallery-dl -v --config /etc/gallery-dl.conf \
+gallery-dl -q --config /etc/gallery-dl.conf \
            --cookies /tmp/x_cookies.txt \
            --filter "date >= datetime($YEAR, $MONTH, $DAY)" \
+           --option "extractor.twitter.abort=date < datetime($YEAR, $MONTH, $DAY)" \
            "https://x.com/${X_USER_NAME}/likes"
 
 cd /tmp/downloads
