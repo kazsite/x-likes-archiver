@@ -12,8 +12,7 @@ IFS='-' read -r YEAR MONTH DAY <<< "$TARGET_DATE"
 
 gallery-dl --config /etc/gallery-dl.conf \
            --cookies /tmp/x_cookies.txt \
-           --filter "date >= datetime($YEAR, $MONTH, $DAY)" \
-           --option "extractor.twitter.abort=date < datetime($YEAR, $MONTH, $DAY)" \
+           --filter "date >= datetime($YEAR, $MONTH, $DAY) or abort()" \
            "https://x.com/${X_USER_NAME}/likes"
 
 cd /tmp/downloads
