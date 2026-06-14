@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-if [ -z "$EXECUTION_ID" ] || [ -z "$X_USER_NAME" ] || [ -z "$X_AUTH_TOKEN" ] || [ -z "$X_CT0" ] || [ -z "$TARGET_DATE" ]; then
-  echo "Error: Missing required environment variables (EXECUTION_ID, X_USER_NAME, X_AUTH_TOKEN, X_CT0, TARGET_DATE)"
+if [ -z "$EXECUTION_ID" ] || [ -z "$X_USER_NAME" ] || [ -z "$X_AUTH_TOKEN" ] || [ -z "$X_CT0" ] || [ -z "$TARGET_DATE" ] || [ -z "$TARGET" ]; then
+  echo "Error: Missing required environment variables (EXECUTION_ID, X_USER_NAME, X_AUTH_TOKEN, X_CT0, TARGET_DATE, TARGET)"
   exit 1
 fi
 
@@ -13,7 +13,7 @@ IFS='-' read -r YEAR MONTH DAY <<< "$TARGET_DATE"
 gallery-dl --config /etc/gallery-dl.conf \
            --cookies /tmp/x_cookies.txt \
            --filter "date >= datetime($YEAR, $MONTH, $DAY) or abort()" \
-           "https://x.com/${X_USER_NAME}/likes"
+           "https://x.com/${X_USER_NAME}/${TARGET}"
 
 cd /tmp/downloads
 ZIP_NAME="${X_USER_NAME}_likes_$(date +%Y%m%d%H%M%S).zip"
